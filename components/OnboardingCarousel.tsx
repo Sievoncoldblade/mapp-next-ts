@@ -9,7 +9,7 @@ import OnboardingCard from "./OnboardingCard";
 
 function OnboardingCarousel() {
   return (
-    <div className='carousel rounded-box mt-12'>
+    <div className='carousel rounded-box'>
       <OnboardingCard
         alt='knowledge'
         title='Unlock the Secrets of Etiquette!'
