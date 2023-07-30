@@ -85,29 +85,46 @@ model VerificationToken {
 }
 
 model Quiz {
-  id        String      @id @default(cuid())
+  id        String     @id @default(cuid())
   title     String
-  questions Questions[]
-  author    User        @relation(fields: [userId], references: [id])
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  questions Question[]
+  author    User       @relation(fields: [userId], references: [id])
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   userId    String
 
   @@index([userId])
 }
 
-model Questions {
-  id         String   @id @default(cuid())
-  question   String
-  answer     String
-  gameId     String
-  options    Json?
-  isCorrect  Boolean?
-  userAnswer String?
-  Quiz       Quiz?    @relation(fields: [quizId], references: [id])
-  quizId     String?
+model Question {
+  id       String @id @default(cuid())
+  question String
+  answer   String
+  gameId   String
+
+  options    Options[] @relation("Questions")
+  userAnswer Options[] @relation("Answers") // supports multiple answers
+
+  correct Int?
+
+  Quiz   Quiz?   @relation(fields: [quizId], references: [id])
+  quizId String?
 
   @@index([quizId])
+}
+
+model Options {
+  id    String @id @default(cuid())
+  title String
+
+  optionsAsQuestions Question? @relation("Questions", fields: [questionId], references: [id])
+  optionsAsAnswers   Question? @relation("Answers", fields: [answerId], references: [id])
+
+  questionId String?
+  answerId   String?
+
+  @@index([questionId])
+  @@index([answerId])
 }
 
 model Classroom {
