@@ -45,6 +45,12 @@ model Session {
   @@index([userId])
 }
 
+enum Roles {
+  student
+  teacher
+  admin
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -52,10 +58,19 @@ model User {
   password      String?
   emailVerified DateTime?
   image         String?
+  role          Roles     @default(student)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
+
+  // Opposite relation field for teacher
+  classroomsAsTeacher Classroom[] @relation("Teacher")
+
+  // Opposite relation field for students
+  classroomsAsStudent Classroom[] @relation("Students")
+
+  accounts Account[]
+  sessions Session[]
+  Quiz     Quiz[]
 }
 
 model VerificationToken {
@@ -67,4 +82,40 @@ model VerificationToken {
   updatedAt  DateTime @updatedAt
 
   @@unique([identifier, token])
+}
+
+model Quiz {
+  id        String      @id @default(cuid())
+  title     String
+  questions Questions[]
+  author    User        @relation(fields: [userId], references: [id])
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  userId    String
+
+  @@index([userId])
+}
+
+model Questions {
+  id         String   @id @default(cuid())
+  question   String
+  answer     String
+  gameId     String
+  options    Json?
+  isCorrect  Boolean?
+  userAnswer String?
+  Quiz       Quiz?    @relation(fields: [quizId], references: [id])
+  quizId     String?
+
+  @@index([quizId])
+}
+
+model Classroom {
+  id        Int    @id @default(autoincrement())
+  name      String
+  teacher   User   @relation("Teacher", fields: [teacherId], references: [id])
+  teacherId String
+  students  User[] @relation("Students")
+
+  @@index([teacherId])
 }
