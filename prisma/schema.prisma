@@ -51,24 +51,15 @@ enum Roles {
   ADMIN
 }
 
-enum GradeLevel {
-  ONE
-  TWO
-  THREE
-  FOUR
-  FIVE
-  SIXX
-}
-
 model User {
-  id            String      @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String      @unique
+  email         String    @unique
   password      String?
   emailVerified DateTime?
   image         String?
-  role          Roles       @default(STUDENT)
-  gradeLevel    GradeLevel?
+  role          Roles     @default(STUDENT)
+  gradeLevel    Int
   age           Int?
   birthDate     DateTime?
 

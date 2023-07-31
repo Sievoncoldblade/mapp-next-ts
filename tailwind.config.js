@@ -9,5 +9,19 @@ module.exports = {
       },
     },
   },
+  daisyui: {
+    themes: ["light", "dark", "winter"],
+    // myTheme: {
+    //   primary: "#062b50",
+    //   secondary: "#b3b3b3",
+    //   accent: "#4ca2f9",
+    //   neutral: "#062b50",
+    //   "base-100": "#f3f5f6",
+    //   info: "#f3a447",
+    //   success: "#36d399",
+    //   warning: "#fbbd23",
+    //   error: "#f87272",
+    // },
+  },
   plugins: [require("daisyui")],
 };
