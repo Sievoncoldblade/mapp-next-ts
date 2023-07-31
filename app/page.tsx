@@ -5,15 +5,9 @@ import prisma from "@/lib/prisma";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
-  const user = await prisma.user.findUnique({ where: { id: session?.user.id } });
-  const isFirstTimeLogin = !user?.gradeLevel;
 
   if (session) {
-    if (isFirstTimeLogin) {
-      return redirect("/user-form");
-    } else {
-      return redirect("/dashboard");
-    }
+    return redirect("/dashboard");
   } else {
     redirect("/landing");
   }

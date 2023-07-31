@@ -5,7 +5,7 @@ import React from "react";
 import Knowledge from "@/assets/knowledge.svg";
 import Learning from "@/assets/learning.svg";
 import Quiz from "@/assets/quiz.svg";
-import OnboardingCard from "./OnboardingCard";
+import OnboardingCard from "@/components/onboarding-card";
 
 function OnboardingCarousel() {
   return (

@@ -11,7 +11,7 @@ declare module "next-auth" {
       /** The user's name. */
       name: string;
       email: string;
-      image: string | StaticImport;
+      image: string | undefined;
     };
   }
 }

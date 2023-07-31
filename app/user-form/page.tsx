@@ -3,19 +3,17 @@ import React from "react";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import UserForm from "@/components/user-form";
 
-const UserForm = async () => {
+const Page = async () => {
   const session = await getServerSession(authOptions);
-  const user = await prisma.user.findUnique({ where: { id: session?.user.id } });
+  const user = await prisma.user.findUnique({ where: { email: session?.user.email } });
   const isFirstTimeLogin = !user?.gradeLevel;
+
   if (session && isFirstTimeLogin) {
-    return (
-      <div>
-        <p>user form</p>
-      </div>
-    );
+    return <UserForm />;
   }
   return redirect("/");
 };
 
-export default UserForm;
+export default Page;
