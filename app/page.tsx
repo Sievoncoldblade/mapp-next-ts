@@ -15,6 +15,7 @@ export default function Home() {
           console.log(status, session);
           router.push("/dashboard");
         } else {
+          console.log(status, session);
           router.push("/landing");
         }
       } catch (err) {
