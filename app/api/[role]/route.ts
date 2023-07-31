@@ -15,3 +15,10 @@ export async function GET(request: Request, { params }: { params: { role: Roles 
     return new NextResponse(JSON.stringify(err), { status: 400 });
   }
 }
+
+export async function POST(request: Request) {
+  try {
+  } catch (err) {
+    return new NextResponse(JSON.stringify(err), { status: 400 });
+  }
+}
