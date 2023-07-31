@@ -17,7 +17,6 @@ const Quiz = () => {
           </button>
         </div>
       </nav>
-
       <QuestionForm />
     </div>
   );

@@ -1,29 +1,22 @@
-"use client";
+import { redirect, useRouter } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import prisma from "@/lib/prisma";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useSession } from "next-auth/react";
+const Page = async () => {
+  const session = await getServerSession(authOptions);
+  const user = await prisma.user.findUnique({ where: { id: session?.user.id } });
+  const isFirstTimeLogin = !user?.gradeLevel;
 
-export default function Home() {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-
-  useEffect(() => {
-    async function checkSession() {
-      try {
-        if (status == "authenticated") {
-          console.log(status, session);
-          router.push("/dashboard");
-        } else {
-          console.log(status, session);
-          router.push("/landing");
-        }
-      } catch (err) {
-        // Handle any errors that might occur during session check
-        console.error("Error checking session:", err);
-      }
+  if (session) {
+    if (isFirstTimeLogin) {
+      return redirect("/user-form");
+    } else {
+      return redirect("/dashboard");
     }
+  } else {
+    redirect("/landing");
+  }
+};
 
-    checkSession();
-  }, [status, router, session]);
-}
+export default Page;

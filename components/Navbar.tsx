@@ -4,13 +4,13 @@ import Image from "next/image";
 import React from "react";
 
 import photo from "@/assets/profile.jpg";
-import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { Session } from "next-auth";
 
-const Navbar = () => {
-  const { data: session, status } = useSession();
+const Navbar = ({ session }: { session: Session | null }) => {
   return (
     <>
-      {status == "authenticated" && (
+      {session && (
         <nav className='navbar h-24 gap-3 px-4 bg-white shadow-md'>
           <div className='flex-1'>
             <div>
@@ -19,12 +19,20 @@ const Navbar = () => {
             </div>
           </div>
           <div className='flex-none gap-2'>
-            <div className='dropdown dropdown-content '>
+            <div className='dropdown dropdown-end'>
               <label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
                 <div className='border-2  rounded-full'>
                   <Image className='' src={session.user.image || photo} alt='profile photo' width={100} height={100} />
                 </div>
               </label>
+              <ul tabIndex={0} className='menu menu-lg bg-base-100 dropdown-content dropdown-left mt-9 z-[1] p-2 shadow rounded-box w-52'>
+                {/* <li>
+                  <a>Settings</a>
+                </li> */}
+                <li>
+                  <Link href='/api/auth/signout'>Logout</Link>
+                </li>
+              </ul>
             </div>
           </div>
         </nav>
