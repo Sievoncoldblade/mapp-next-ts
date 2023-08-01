@@ -10,11 +10,9 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import QuizCard from "@/components/dashboard/quiz-card";
 import { Separator } from "@/components/ui/separator";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 const Quizzes = () => {
   const { data: session, status } = useSession();
-  const router = useRouter();
   if (status == "authenticated") {
     return (
       <div className='flex flex-col min-h-screen relative p-5 gap-6'>
@@ -54,9 +52,6 @@ const Quizzes = () => {
       </div>
     );
   }
-
-  router.push("/");
-  return <></>;
 };
 
 export default Quizzes;
