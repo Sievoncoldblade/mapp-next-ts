@@ -55,7 +55,7 @@ const Quizzes = () => {
     );
   }
 
-  return router.back();
+  router.back();
 };
 
 export default Quizzes;

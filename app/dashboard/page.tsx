@@ -70,7 +70,7 @@ const Dashboard = () => {
     );
   }
 
-  return router.back();
+  router.back();
 };
 
 export default Dashboard;
