@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Progress } from "../ui/progress";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
-import { Option, Prisma, Question, Quiz } from "@prisma/client";
-import { QuestionsWithOptions, QuizWithQuestionsWithOptions } from "@/app/quiz/[id]/page";
+import { QuizWithQuestionsWithOptions } from "@/app/quiz/[id]/page";
 
 const QuestionForm = ({ quiz }: { quiz: QuizWithQuestionsWithOptions }) => {
   const { toast } = useToast();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentAnswerSelected, setCurrentAnswerSelected] = useState<number>();
+  const totalQuestions = quiz.questions.length;
   const [isCorrect, setIsCorrect] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
 
   const handleButtonClick = (answer: number, isCorrect: boolean) => {
     setCurrentAnswerSelected(answer);
@@ -25,44 +26,65 @@ const QuestionForm = ({ quiz }: { quiz: QuizWithQuestionsWithOptions }) => {
         description: "Please pick an answer",
         variant: "destructive",
       });
-
+      setTimeout(() => t.dismiss(), 1500);
       return;
     }
 
-    if (!isCorrect) {
+    if (!isCorrect && currentQuestionIndex + 1 < totalQuestions) {
       const t = toast({
         title: "Incorrect answer",
         variant: "destructive",
       });
-    } else {
+      setTimeout(() => t.dismiss(), 1500);
+      return setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    }
+
+    if (isCorrect && currentQuestionIndex + 1 < totalQuestions) {
       const t = toast({
         title: "You got it right!",
-        variant: "default",
+        variant: "success",
       });
-      setIsCorrect(false);
-      setCurrentAnswerSelected(undefined);
+      setTimeout(() => t.dismiss(), 1500);
     }
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+
+    setCorrectAnswers((prevCorrect) => prevCorrect + 1);
+    setIsCorrect(false);
+    setCurrentAnswerSelected(undefined);
+    return setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
 
-  const handleShowQuestionResult = () => {};
   const currentQuestion = quiz.questions[currentQuestionIndex];
 
   if (!currentQuestion) {
-    return <p>No more Questions</p>;
+    return (
+      <div className='flex-1 flex flex-col gap-9 m-6 w-[80vw] md:w-[70vw] lg:w-[40vw] items-center self-center'>
+        <div className='flex flex-col gap-3 items-center'>
+          <p>Total correct answers</p>
+          <p className='bg-secondary px-4 py-2 rounded-full'>
+            {correctAnswers} out of {totalQuestions} Questions
+          </p>
+        </div>
+        <div className='flex flex-col items-center border-2 p-12 rounded-xl justify-center gap-5'>
+          <p className='font-bold text-3xl'>Your score is</p>
+          <div className='rounded-full bg-primary text-primary-foreground p-10 text-[5rem]'>{Math.ceil(correctAnswers / totalQuestions) * 100}</div>
+        </div>
+      </div>
+    );
   }
 
-  console.log((currentQuestionIndex + 1 / quiz.questions.length) * 100);
   return (
-    <div className='flex-1 flex gap-4 flex-col m-6 justify-between w-[80vw] md:w-[70vw] lg:w-[40vw] self-center'>
-      <Progress value={(currentQuestionIndex + 1 / quiz.questions.length) * 100} />
-      <p className=''>
-        Question: {currentQuestionIndex + 1}/{quiz.questions.length}
-      </p>
-      <p className='font-bold h-auto min-h-[10rem] text-xl'>{currentQuestion.title}</p>
+    <div className='flex-1 flex flex-col m-6 justify-between w-[80vw] md:w-[70vw] lg:w-[40vw] self-center'>
+      <div className='space-y-5'>
+        <Progress value={(currentQuestionIndex + 1 / totalQuestions) * 100} />
+        <p className=''>
+          Question: {currentQuestionIndex + 1}/{totalQuestions}
+        </p>
+      </div>
+      <div className='h-auto max-h-[10rem]'>
+        <p className='font-bold  text-xl'>{currentQuestion.title}</p>
+      </div>
       <div className='grid grid-flow-row grid-rows-4 gap-2'>
         {currentQuestion.options.map((option) => {
-          console.log(option.title);
           return (
             <Button
               onClick={() => handleButtonClick(option.id, option.isAnswer)}

@@ -1,3 +1,5 @@
+"use client";
+
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
@@ -10,11 +12,14 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import QuizCard from "@/components/dashboard/quiz-card";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const Dashboard = async () => {
-  const session = await getServerSession(authOptions);
+const Dashboard = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-  if (session) {
+  if (status == "authenticated") {
     return (
       <div className='flex flex-col min-h-screen relative p-5 gap-6'>
         <div className='absolute bottom-5 right-5'>
@@ -26,7 +31,7 @@ const Dashboard = async () => {
         </div>
         <div className='px-2'>
           <Button asChild className='space-x-3'>
-            <Link href='/'>
+            <Link href='/quiz'>
               <h2 className='scroll-m-20 text-2xl font-semibold tracking-tight'>Quizzes</h2>
               <ArrowRightCircle />
             </Link>
@@ -65,7 +70,7 @@ const Dashboard = async () => {
     );
   }
 
-  return redirect("/");
+  return router.back();
 };
 
 export default Dashboard;
