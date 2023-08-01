@@ -89,7 +89,7 @@ model VerificationToken {
 }
 
 model Quiz {
-  id        String     @id @default(cuid())
+  id        Int        @id @default(autoincrement())
   title     String
   questions Question[]
   author    User       @relation(fields: [userId], references: [id])
@@ -101,34 +101,27 @@ model Quiz {
 }
 
 model Question {
-  id       String @id @default(cuid())
-  question String
-  answer   String
-  gameId   String
+  id    Int    @id @default(autoincrement())
+  title String
 
-  questions Options[] @relation("Questions")
-  answers   Options[] @relation("Answers") // supports multiple answers
+  options Option[]
 
-  correct Int?
-
-  Quiz   Quiz?   @relation(fields: [quizId], references: [id])
-  quizId String?
+  Quiz     Quiz?  @relation(fields: [quizId], references: [id])
+  quizId   Int?
+  optionId String
 
   @@index([quizId])
 }
 
-model Options {
-  id    String @id @default(cuid())
-  title String
+model Option {
+  id       Int     @id @default(autoincrement())
+  title    String
+  isAnswer Boolean @default(false)
 
-  optionsAsQuestions Question? @relation("Questions", fields: [questionId], references: [id])
-  optionsAsAnswers   Question? @relation("Answers", fields: [answerId], references: [id])
-
-  questionId String?
-  answerId   String?
+  Question   Question? @relation(fields: [questionId], references: [id])
+  questionId Int?
 
   @@index([questionId])
-  @@index([answerId])
 }
 
 model Classroom {
