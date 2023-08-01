@@ -13,11 +13,9 @@ import QuizCard from "@/components/dashboard/quiz-card";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
   const { data: session, status } = useSession();
-  const router = useRouter();
 
   if (status == "authenticated") {
     return (
@@ -69,8 +67,6 @@ const Dashboard = () => {
       </div>
     );
   }
-  router.push("/");
-  return <></>;
 };
 
 export default Dashboard;
