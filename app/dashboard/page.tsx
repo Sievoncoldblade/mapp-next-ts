@@ -69,8 +69,8 @@ const Dashboard = () => {
       </div>
     );
   }
-
-  router.back();
+  router.push("/");
+  return <></>;
 };
 
 export default Dashboard;
