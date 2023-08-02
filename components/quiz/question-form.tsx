@@ -68,7 +68,7 @@ const QuestionForm = ({ quiz }: { quiz: QuizWithQuestionsWithOptions }) => {
         </div>
         <div className='flex flex-col items-center border-2 p-12 rounded-xl justify-center gap-5'>
           <p className='font-bold text-3xl'>Your score is</p>
-          <div className='rounded-full bg-primary text-primary-foreground p-10 text-[5rem]'>{Math.ceil(correctAnswers / totalQuestions) * 100}</div>
+          <div className='rounded-full bg-primary text-primary-foreground p-10 text-[5rem]'>{Math.floor((correctAnswers / totalQuestions) * 100)}</div>
         </div>
       </div>
     );

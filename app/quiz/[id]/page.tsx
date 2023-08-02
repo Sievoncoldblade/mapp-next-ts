@@ -7,7 +7,7 @@ import { ArrowLeftCircle } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const quizWithQuestionsWithOptions = Prisma.validator<Prisma.QuizArgs>()({
+const quizWithQuestionsWithOptions = Prisma.validator<Prisma.QuizDefaultArgs>()({
   include: {
     questions: {
       include: {
@@ -17,7 +17,7 @@ const quizWithQuestionsWithOptions = Prisma.validator<Prisma.QuizArgs>()({
   },
 });
 
-const questionsWithOptions = Prisma.validator<Prisma.QuestionArgs>()({
+const questionsWithOptions = Prisma.validator<Prisma.QuestionDefaultArgs>()({
   include: {
     options: true,
   },
