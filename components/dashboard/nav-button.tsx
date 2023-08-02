@@ -17,7 +17,7 @@ const NavButton = ({ session }: { session: Session }) => {
             <AvatarFallback>{session.user.name[0]}</AvatarFallback>
           </Avatar>
           <div className='text-left pr-10'>
-            <p className='font-bold text-xl text'>Hi, {session.user.name.split(" ", 1)}</p>
+            <p className='font-bold text-xl text'>Hi, {session.user.name.split(" ", 1)}!</p>
             <p className='text-sm'>Grade 1 Student</p>
           </div>
         </Button>
