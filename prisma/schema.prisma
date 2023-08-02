@@ -108,9 +108,8 @@ model Question {
 
   options Option[]
 
-  Quiz     Quiz?  @relation(fields: [quizId], references: [id])
-  quizId   Int?
-  optionId String
+  Quiz   Quiz? @relation(fields: [quizId], references: [id])
+  quizId Int?
 
   @@index([quizId])
 }

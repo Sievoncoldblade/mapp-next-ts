@@ -17,6 +17,20 @@ export type QuizWithQuestionsWithOptions = Prisma.QuizGetPayload<typeof quizWith
 export async function POST(request: Request) {
   try {
     const data: QuizWithQuestionsWithOptions = await request.json();
+
+    const quiz = await prisma.quiz.create({
+      data: {
+        title: data.title,
+        author: {
+          connect: {
+            id: data.userId,
+          },
+        },
+        questions: {
+          create: [],
+        },
+      },
+    });
   } catch (err) {
     return new NextResponse(JSON.stringify(err), { status: 400 });
   }
