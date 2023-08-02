@@ -47,9 +47,9 @@ const QuestionForm = ({ quiz }: { quiz: QuizWithQuestionsWithOptions }) => {
         variant: "success",
       });
       setTimeout(() => t.dismiss(), 1500);
+      setCorrectAnswers((prevCorrect) => prevCorrect + 1);
     }
 
-    setCorrectAnswers((prevCorrect) => prevCorrect + 1);
     setIsCorrect(false);
     setCurrentAnswerSelected(undefined);
     return setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -100,7 +100,7 @@ const QuestionForm = ({ quiz }: { quiz: QuizWithQuestionsWithOptions }) => {
           );
         })}
       </div>
-      <Button variant={"secondary"} className='rounded-full min-h-[4rem] text-xl normal-case mt-5' onClick={handleContinue}>
+      <Button variant={"secondary"} className='rounded-full min-h-[4rem] text-xl normal-case mt-5' onClick={() => handleContinue()}>
         Continue
       </Button>
     </div>
