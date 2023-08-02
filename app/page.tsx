@@ -11,7 +11,7 @@ const Page = () => {
 
   if (status == "authenticated") {
     return redirect("/dashboard");
-  } else {
+  } else if (status == "unauthenticated") {
     redirect("/landing");
   }
 };

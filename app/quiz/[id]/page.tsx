@@ -41,7 +41,6 @@ const getQuiz = async () => {
 const Quiz = async () => {
   const session = await getServerSession(authOptions);
   const quiz = await getQuiz();
-
   return (
     <div className='flex flex-col h-[90vh]'>
       <nav className='flex bg-primary max-w-fit w-fit mt-5 gap-5 p-4 self-center rounded-full justify-between '>

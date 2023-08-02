@@ -29,10 +29,10 @@ export default function Landing() {
           <FaGoogle className='mr-2' />
           Sign in with Google
         </Button>
-        <Button variant={"secondary"} size={"lg"} onClick={() => signIn()}>
+        {/* <Button variant={"secondary"} size={"lg"} onClick={() => signIn()}>
           <MdAlternateEmail className='mr-2' />
           Sign in with Email
-        </Button>
+        </Button> */}
       </div>
     </main>
   );

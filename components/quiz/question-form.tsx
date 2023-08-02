@@ -30,6 +30,7 @@ const QuestionForm = ({ quiz }: { quiz: QuizWithQuestionsWithOptions }) => {
       return;
     }
 
+    // if (!isCorrect && currentQuestionIndex + 1 < totalQuestions) {
     if (!isCorrect && currentQuestionIndex + 1 < totalQuestions) {
       const t = toast({
         title: "Incorrect answer",
@@ -39,6 +40,7 @@ const QuestionForm = ({ quiz }: { quiz: QuizWithQuestionsWithOptions }) => {
       return setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     }
 
+    // if (isCorrect && currentQuestionIndex + 1 < totalQuestions) {
     if (isCorrect && currentQuestionIndex + 1 < totalQuestions) {
       const t = toast({
         title: "You got it right!",
